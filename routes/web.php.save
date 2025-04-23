@@ -1,0 +1,43 @@
+<?php
+
+use App\Http\Controllers\RecipeController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use Illuminate\Support\Facades\Route;
+
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+
+Route::get('/', [RecipeController::class, 'index'])->name('home');
+
+Route::get('/recipes', [RecipeController::class, 'index'])->name('recipes.index');
+
+require __DIR__.'/auth.php';
+
+//Route::get('/dashboard', function () {
+//    return view('dashboard');
+//})->middleware(['auth', 'verified'])->name('dashboard');
+
+//Route::middleware('guest')->group(function () {
+//    Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
+//    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+//    Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
+//    Route::post('register', [RegisteredUserController::class, 'store']);
+//});
+
+Route::middleware('auth')->group(function () {
+Route::middleware('auth')->group(function () {
+    // Dashboard for recipe management
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+         ->name('dashboard');
+
+    // (Later) your create/edit/delete recipe routes go here
+});
+//    Route::get('/', [RecipeController::class, 'index'])->name('recipes.index');
+//    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
